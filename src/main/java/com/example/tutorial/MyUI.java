@@ -65,8 +65,8 @@ public class MyUI extends UI {
         
         gridHotel.setColumns("name","address","rating","operatesFrom","category","specification");
         
-        gridHotel.addColumn(e ->"<a href='" + e.getUrl() + "' target='_top'>Explore website</a>",
-        new HtmlRenderer());
+        gridHotel.addColumn(hotel ->"<a href='" + hotel.getUrl() + "' target='_top'>" + hotel.getUrl() +"</a>",
+                new HtmlRenderer()).setCaption("Url");
         
         
         HorizontalLayout main = new HorizontalLayout(gridHotel, hotelForm);
