@@ -1,7 +1,5 @@
 package com.example.tutorial;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
