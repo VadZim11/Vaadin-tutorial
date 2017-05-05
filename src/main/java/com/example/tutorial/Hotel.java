@@ -12,7 +12,7 @@ public class Hotel implements Serializable, Cloneable {
 
 	private String address = "";
 
-	private String rating;
+	private Integer rating;
 
 	private LocalDate operatesFrom;
 
@@ -73,11 +73,11 @@ public class Hotel implements Serializable, Cloneable {
 		this.address = address;
 	}
 
-	public String getRating() {
+	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 
@@ -113,7 +113,7 @@ public class Hotel implements Serializable, Cloneable {
 		this.specification = specification;
 	}
 
-	public Hotel(Long id, String name, String address, String rating, LocalDate operatesFrom, HotelCategory category, String url, String specification) {
+	public Hotel(Long id, String name, String address, Integer rating, LocalDate operatesFrom, HotelCategory category, String url, String specification) {
 		super();
 		this.id = id;
 		this.name = name;

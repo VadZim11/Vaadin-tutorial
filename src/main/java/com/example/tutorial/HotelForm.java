@@ -1,6 +1,7 @@
 package com.example.tutorial;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
@@ -43,7 +44,21 @@ public class HotelForm extends FormLayout{
 		
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
+		
+		bindFields();
 	}
+	
+	private void bindFields(){
+		binder.forField(rating).withConverter(new StringToIntegerConverter(0, "Only digits!"))
+		.bind(Hotel:: getRating, Hotel:: setRating);
+		binder.forField(name).bind(Hotel:: getName, Hotel:: setName);
+		binder.forField(address).bind(Hotel:: getAddress, Hotel:: setAddress);
+		binder.forField(operatesFrom).bind(Hotel:: getOperatesFrom, Hotel:: setOperatesFrom);
+		binder.forField(category).bind(Hotel:: getCategory, Hotel:: setCategory);
+		binder.forField(url).bind(Hotel:: getUrl, Hotel:: setUrl);
+		binder.forField(specification).bind(Hotel:: getSpecification, Hotel:: setSpecification);
+		//binder.bindInstanceFields(this);
+	} 
 	
 	public void setHotel(Hotel hotel){
 		this.hotel = hotel;
