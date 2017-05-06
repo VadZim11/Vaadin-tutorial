@@ -33,20 +33,22 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         
-        filterName.setPlaceholder("filtering by name...");
+        filterName.setPlaceholder("filtering by name");
         filterName.addValueChangeListener(e -> updateHotels());
         filterName.setValueChangeMode(ValueChangeMode.LAZY);
+        filterName.setDescription("filtering by name");
         
-        filterAddress.setPlaceholder("filtering by address...");
+        filterAddress.setPlaceholder("filtering by address");
         filterAddress.addValueChangeListener(e -> updateHotels());
         filterAddress.setValueChangeMode(ValueChangeMode.LAZY);
+        filterAddress.setDescription("filtering by address");
         
         Button clearFilterNameButton = new Button(VaadinIcons.CLOSE);
-        clearFilterNameButton.setDescription("Name filter...");
+        clearFilterNameButton.setDescription("Name filter");
         clearFilterNameButton.addClickListener(e -> filterName.clear());
         
         Button clearFilterAddressButton = new Button(VaadinIcons.CLOSE);
-        clearFilterAddressButton.setDescription("Address filter...");
+        clearFilterAddressButton.setDescription("Address filter");
         clearFilterAddressButton.addClickListener(e -> filterAddress.clear());
         
         CssLayout filtering = new CssLayout();
@@ -54,7 +56,8 @@ public class MyUI extends UI {
     
         filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         
-        Button addHotelButton = new Button("Add hotel...");
+        Button addHotelButton = new Button("Add hotel");
+        addHotelButton.setDescription("Add new hotel");
         addHotelButton.addClickListener(e -> {
         	gridHotel.asSingleSelect().clear();
         	hotelForm.setHotel(new Hotel());

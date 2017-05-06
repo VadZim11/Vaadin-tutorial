@@ -31,6 +31,16 @@ public class HotelForm extends FormLayout{
 	
 	public HotelForm(MyUI myUI){
 		this.myUI = myUI;
+
+		name.setDescription("Name");
+		address.setDescription("Address");
+		rating.setDescription("Rating");
+		operatesFrom.setDescription("OperatesFrom");
+		category.setDescription("Category");
+		url.setDescription("Url");
+		specification.setDescription("Specification");
+		save.setDescription("Save");
+		delete.setDescription("Delete");
 		
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);
@@ -39,8 +49,6 @@ public class HotelForm extends FormLayout{
 		category.setItems(HotelCategory.values());
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
-		
-		binder.bindInstanceFields(this);
 		
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
@@ -57,7 +65,6 @@ public class HotelForm extends FormLayout{
 		binder.forField(category).bind(Hotel:: getCategory, Hotel:: setCategory);
 		binder.forField(url).bind(Hotel:: getUrl, Hotel:: setUrl);
 		binder.forField(specification).bind(Hotel:: getSpecification, Hotel:: setSpecification);
-		//binder.bindInstanceFields(this);
 	} 
 	
 	public void setHotel(Hotel hotel){
