@@ -66,7 +66,7 @@ public class MyUI extends UI {
         HorizontalLayout toolbar = new HorizontalLayout(filtering, addHotelButton);
         
         
-        gridHotel.setColumns("name","address","rating","operatesFrom","category","specification");
+        gridHotel.setColumns("name","address","rating","operatesFrom","category","description");
         
         gridHotel.addColumn(e ->"<a href='" + e.getUrl()
                            + "' target='_blank'>" + e.getUrl() +"</a>",new HtmlRenderer())
