@@ -32,6 +32,16 @@ public class HotelForm extends FormLayout{
 	
 	public HotelForm(MyUI myUI){
 		this.myUI = myUI;
+
+		name.setDescription("Name");
+		address.setDescription("Address");
+		rating.setDescription("Rating");
+		operatesFrom.setDescription("OperatesFrom");
+		category.setDescription("Category");
+		url.setDescription("Url");
+		specification.setDescription("Specification");
+		save.setDescription("Save");
+		delete.setDescription("Delete");
 		
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);

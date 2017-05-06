@@ -26,35 +26,38 @@ public class MyUI extends UI {
 	private HotelService service = HotelService.getInstance();
 	private Grid<Hotel> gridHotel = new Grid<>(Hotel.class);
 	private TextField filterName = new TextField();
-	private TextField filterAdress = new TextField();
+	private TextField filterAddress = new TextField();
 	private HotelForm hotelForm = new HotelForm(this);
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         
-        filterName.setPlaceholder("filtering by name...");
+        filterName.setPlaceholder("filtering by name");
         filterName.addValueChangeListener(e -> updateHotels());
         filterName.setValueChangeMode(ValueChangeMode.LAZY);
+        filterName.setDescription("filtering by name");
         
-        filterAdress.setPlaceholder("filtering by address...");
-        filterAdress.addValueChangeListener(e -> updateHotels());
-        filterAdress.setValueChangeMode(ValueChangeMode.LAZY);
+        filterAddress.setPlaceholder("filtering by address");
+        filterAddress.addValueChangeListener(e -> updateHotels());
+        filterAddress.setValueChangeMode(ValueChangeMode.LAZY);
+        filterAddress.setDescription("filtering by address");
         
         Button clearFilterNameButton = new Button(VaadinIcons.CLOSE);
-        clearFilterNameButton.setDescription("Name filter...");
+        clearFilterNameButton.setDescription("Name filter");
         clearFilterNameButton.addClickListener(e -> filterName.clear());
         
-        Button clearFilterAdressButton = new Button(VaadinIcons.CLOSE);
-        clearFilterAdressButton.setDescription("Adress filter...");
-        clearFilterAdressButton.addClickListener(e -> filterAdress.clear());
+        Button clearFilterAddressButton = new Button(VaadinIcons.CLOSE);
+        clearFilterAddressButton.setDescription("Address filter");
+        clearFilterAddressButton.addClickListener(e -> filterAddress.clear());
         
         CssLayout filtering = new CssLayout();
-        filtering.addComponents(filterName, clearFilterNameButton,filterAdress, clearFilterAdressButton);
+        filtering.addComponents(filterName, clearFilterNameButton,filterAddress, clearFilterAddressButton);
     
         filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         
-        Button addHotelButton = new Button("Add hotel...");
+        Button addHotelButton = new Button("Add hotel");
+        addHotelButton.setDescription("Add new hotel");
         addHotelButton.addClickListener(e -> {
         	gridHotel.asSingleSelect().clear();
         	hotelForm.setHotel(new Hotel());
@@ -65,8 +68,8 @@ public class MyUI extends UI {
         
         gridHotel.setColumns("name","address","rating","operatesFrom","category","specification");
         
-        gridHotel.addColumn(hotel ->"<a href='" + hotel.getUrl()
-                           + "' target='_blank'>" + hotel.getUrl() +"</a>",new HtmlRenderer())
+        gridHotel.addColumn(e ->"<a href='" + e.getUrl()
+                           + "' target='_blank'>" + e.getUrl() +"</a>",new HtmlRenderer())
                 .setCaption("Url");
         
         
@@ -93,7 +96,7 @@ public class MyUI extends UI {
     }
 
 	public void updateHotels(){
-		List<Hotel> hotel = service.findAllByNameAndAddress(filterName.getValue(), filterAdress.getValue());
+		List<Hotel> hotel = service.findAllByNameAndAddress(filterName.getValue(), filterAddress.getValue());
 	
         gridHotel.setItems(hotel);
 	}
