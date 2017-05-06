@@ -96,7 +96,7 @@ public class MyUI extends UI {
     }
 
 	public void updateHotels(){
-		List<Hotel> hotel = service.findAllByNameAndAddress(filterName.getValue(), filterAddress.getValue());
+		List<Hotel> hotel = service.findAll(filterName.getValue(), filterAddress.getValue());
 	
         gridHotel.setItems(hotel);
 	}

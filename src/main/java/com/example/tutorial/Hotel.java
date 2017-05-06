@@ -14,7 +14,7 @@ public class Hotel implements Serializable, Cloneable {
 
 	private Integer rating;
 
-	private LocalDate operatesFrom;
+	private Long operatesFrom;
 
 	private HotelCategory category;
 	
@@ -81,11 +81,11 @@ public class Hotel implements Serializable, Cloneable {
 		this.rating = rating;
 	}
 
-	public LocalDate getOperatesFrom() {
+	public Long getOperatesFrom() {
 		return operatesFrom;
 	}
 
-	public void setOperatesFrom(LocalDate operatesFrom) {
+	public void setOperatesFrom(Long operatesFrom) {
 		this.operatesFrom = operatesFrom;
 	}
 
@@ -113,7 +113,7 @@ public class Hotel implements Serializable, Cloneable {
 		this.specification = specification;
 	}
 
-	public Hotel(Long id, String name, String address, Integer rating, LocalDate operatesFrom, HotelCategory category, String url, String specification) {
+	public Hotel(Long id, String name, String address, Integer rating, Long operatesFrom, HotelCategory category, String url, String specification) {
 		super();
 		this.id = id;
 		this.name = name;
