@@ -1,6 +1,7 @@
 package com.example.tutorial;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.Converter;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
@@ -34,13 +35,11 @@ public class HotelForm extends FormLayout{
 		
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);
-		addComponents(name,address,rating, operatesFrom, category, url, specification, buttons);
-		
+		addComponents(name,address,rating, operatesFrom, category, url, specification, buttons);		
 		category.setItems(HotelCategory.values());
+		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
-		
-		binder.bindInstanceFields(this);
 		
 		save.addClickListener(e -> save());
 		delete.addClickListener(e -> delete());
@@ -50,14 +49,16 @@ public class HotelForm extends FormLayout{
 	
 	private void bindFields(){
 		binder.forField(rating).withConverter(new StringToIntegerConverter(0, "Only digits!"))
-		.bind(Hotel:: getRating, Hotel:: setRating);
+			.withValidator(v -> (v<6 ), "Rating in not < 6")
+			.withValidator(v -> (v>0), "Rating in not positiv!")
+			.bind(Hotel:: getRating, Hotel:: setRating);
 		binder.forField(name).bind(Hotel:: getName, Hotel:: setName);
 		binder.forField(address).bind(Hotel:: getAddress, Hotel:: setAddress);
-		binder.forField(operatesFrom).bind(Hotel:: getOperatesFrom, Hotel:: setOperatesFrom);
+		binder.forField(operatesFrom).withConverter(new DataConverter())
+			.bind(Hotel:: getOperatesFrom, Hotel:: setOperatesFrom);
 		binder.forField(category).bind(Hotel:: getCategory, Hotel:: setCategory);
 		binder.forField(url).bind(Hotel:: getUrl, Hotel:: setUrl);
 		binder.forField(specification).bind(Hotel:: getSpecification, Hotel:: setSpecification);
-		//binder.bindInstanceFields(this);
 	} 
 	
 	public void setHotel(Hotel hotel){
