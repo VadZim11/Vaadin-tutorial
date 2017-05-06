@@ -56,15 +56,15 @@ public class HotelService {
 		return arrayList;
 	}
 	
-	public synchronized List<Hotel> findAllByNameAndAddress(String stringFilter, String stringFilter1) {
+	public synchronized List<Hotel> findAll(String stringFilter, String stringFilter1) {
 		ArrayList<Hotel> arrayList = new ArrayList<>();
 		for (Hotel hotel : hotels.values()) {
 			try {
 				
 				boolean passesFilter = ((stringFilter == null && stringFilter1==null) || (stringFilter.isEmpty() && stringFilter1.isEmpty()))
 						|| (hotel.getName().toLowerCase().contains(stringFilter.toLowerCase()) && hotel.getAddress().toLowerCase().contains(stringFilter1.toLowerCase())
-								|| (stringFilter == null && hotel.getAddress().toLowerCase().contains(stringFilter1.toLowerCase()))
-								|| (hotel.getName().toLowerCase().contains(stringFilter.toLowerCase()) && stringFilter1==null));
+						|| (stringFilter == null && hotel.getAddress().toLowerCase().contains(stringFilter1.toLowerCase()))
+						|| (hotel.getName().toLowerCase().contains(stringFilter.toLowerCase()) && stringFilter1==null));
 				if (passesFilter) {
 					arrayList.add(hotel.clone());
 				}
@@ -80,33 +80,6 @@ public class HotelService {
 			}
 		});
 		return arrayList;
-	}
-
-	public synchronized List<Hotel> findAll(String stringFilter, int start, int maxresults) {
-		ArrayList<Hotel> arrayList = new ArrayList<>();
-		for (Hotel contact : hotels.values()) {
-			try {
-				boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
-						|| contact.toString().toLowerCase().contains(stringFilter.toLowerCase());
-				if (passesFilter) {
-					arrayList.add(contact.clone());
-				}
-			} catch (CloneNotSupportedException ex) {
-				Logger.getLogger(HotelService.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		Collections.sort(arrayList, new Comparator<Hotel>() {
-
-			@Override
-			public int compare(Hotel o1, Hotel o2) {
-				return (int) (o2.getId() - o1.getId());
-			}
-		});
-		int end = start + maxresults;
-		if (end > arrayList.size()) {
-			end = arrayList.size();
-		}
-		return arrayList.subList(start, end);
 	}
 
 	public synchronized long count() {
