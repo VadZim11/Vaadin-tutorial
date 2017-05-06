@@ -20,7 +20,7 @@ public class Hotel implements Serializable, Cloneable {
 	
 	private String url;
 	
-	private String specification;
+	private String description;
 
 	public boolean isPersisted() {
 		return id != null;
@@ -105,15 +105,15 @@ public class Hotel implements Serializable, Cloneable {
 		this.url = url;
 	}
 	
-	public String getSpecification() {
-		return specification;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setDescription(String specification) {
+		this.description = specification;
 	}
 
-	public Hotel(Long id, String name, String address, Integer rating, Long operatesFrom, HotelCategory category, String url, String specification) {
+	public Hotel(Long id, String name, String address, Integer rating, Long operatesFrom, HotelCategory category, String url, String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -122,7 +122,7 @@ public class Hotel implements Serializable, Cloneable {
 		this.operatesFrom = operatesFrom;
 		this.category = category;
 		this.url = url;
-		this.specification = specification;
+		this.description = description;
 	}
 
 }

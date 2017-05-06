@@ -21,7 +21,7 @@ public class HotelForm extends FormLayout{
 	private DateField operatesFrom = new DateField("Operates From");
 	private NativeSelect<HotelCategory> category = new NativeSelect<>("Category");
 	private TextField url = new TextField("URL");
-	private TextField specification = new TextField("Specification");
+	private TextField description = new TextField("Description");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	
@@ -33,19 +33,19 @@ public class HotelForm extends FormLayout{
 	public HotelForm(MyUI myUI){
 		this.myUI = myUI;
 
-		name.setDescription("Name");
-		address.setDescription("Address");
-		rating.setDescription("Rating");
-		operatesFrom.setDescription("OperatesFrom");
-		category.setDescription("Category");
-		url.setDescription("Url");
-		specification.setDescription("Specification");
+		name.setDescription("Enter the name of the hotel");
+		address.setDescription("Enter the address of the hotel");
+		rating.setDescription("Enter the hotel rating");
+		operatesFrom.setDescription("Enter from what date does the hotel operate");
+		category.setDescription("Enter hotel category");
+		url.setDescription("Enter the link to the hotel's website");
+		description.setDescription("Enter your description of the hotel");
 		save.setDescription("Save");
 		delete.setDescription("Delete");
 		
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);
-		addComponents(name,address,rating, operatesFrom, category, url, specification, buttons);		
+		addComponents(name,address,rating, operatesFrom, category, url, description, buttons);
 		category.setItems(HotelCategory.values());
 		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -59,8 +59,8 @@ public class HotelForm extends FormLayout{
 	
 	private void bindFields(){
 		binder.forField(rating).withConverter(new StringToIntegerConverter(0, "Only digits!"))
-			.withValidator(v -> (v<6 ), "Rating in not < 6")
-			.withValidator(v -> (v>0), "Rating in not positiv!")
+			.withValidator(v -> (v < 6 ), "Rating in not > 6")
+			.withValidator(v -> (v >= 0), "Rating in not < 0")
 			.bind(Hotel:: getRating, Hotel:: setRating);
 		binder.forField(name).bind(Hotel:: getName, Hotel:: setName);
 		binder.forField(address).bind(Hotel:: getAddress, Hotel:: setAddress);
@@ -68,7 +68,7 @@ public class HotelForm extends FormLayout{
 			.bind(Hotel:: getOperatesFrom, Hotel:: setOperatesFrom);
 		binder.forField(category).bind(Hotel:: getCategory, Hotel:: setCategory);
 		binder.forField(url).bind(Hotel:: getUrl, Hotel:: setUrl);
-		binder.forField(specification).bind(Hotel:: getSpecification, Hotel:: setSpecification);
+		binder.forField(description).bind(Hotel:: getDescription, Hotel:: setDescription);
 	} 
 	
 	public void setHotel(Hotel hotel){
