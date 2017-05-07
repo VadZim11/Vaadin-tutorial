@@ -1,7 +1,6 @@
-package com.example.tutorial;
+package com.example.tutorial.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @SuppressWarnings("serial")
 public class Hotel implements Serializable, Cloneable {

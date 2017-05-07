@@ -1,5 +1,10 @@
-package com.example.tutorial;
+package com.example.tutorial.form;
 
+import com.example.tutorial.converter.DataConverter;
+import com.example.tutorial.MyUI;
+import com.example.tutorial.entity.Hotel;
+import com.example.tutorial.entity.HotelCategory;
+import com.example.tutorial.service.HotelService;
 import com.vaadin.data.Binder;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.event.ShortcutAction.KeyCode;

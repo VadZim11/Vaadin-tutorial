@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.example.tutorial.entity.Hotel;
+import com.example.tutorial.form.HotelForm;
+import com.example.tutorial.service.HotelService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.icons.VaadinIcons;

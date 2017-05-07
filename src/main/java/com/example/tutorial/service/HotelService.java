@@ -1,6 +1,8 @@
-package com.example.tutorial;
+package com.example.tutorial.service;
 
-import java.time.LocalDate;
+import com.example.tutorial.entity.Hotel;
+import com.example.tutorial.entity.HotelCategory;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
