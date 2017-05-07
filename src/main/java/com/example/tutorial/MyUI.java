@@ -10,13 +10,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.ValueChangeMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -32,7 +26,7 @@ public class MyUI extends UI {
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
-        
+                
         filterName.setPlaceholder("filtering by name");
         filterName.addValueChangeListener(e -> updateHotels());
         filterName.setValueChangeMode(ValueChangeMode.LAZY);
@@ -93,7 +87,7 @@ public class MyUI extends UI {
         		hotelForm.setHotel(event.getValue());
         	}
         });
-    }
+    }    
 
 	public void updateHotels(){
 		List<Hotel> hotel = service.findAll(filterName.getValue(), filterAddress.getValue());
