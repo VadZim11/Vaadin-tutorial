@@ -1,6 +1,7 @@
-package com.example.tutorial;
+package com.example.tutorial.service;
 
-import java.time.LocalDate;
+import com.example.tutorial.entity.Hotel;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -141,7 +142,8 @@ public class HotelService {
 				h.setRating(Integer.parseInt(split[1]));
 				h.setUrl(split[2]);
 				h.setAddress(split[3]);
-				h.setCategory(HotelCategory.values()[r.nextInt(HotelCategory.values().length)]);
+				h.setCategory(HotelCategoryService.getInstance().findAll()
+						.get(r.nextInt((int)HotelCategoryService.getInstance().count())));
 				long daysOld = r.nextInt(365 * 30);
 				h.setOperatesFrom(daysOld);
 				save(h);

@@ -1,4 +1,4 @@
-package com.example.tutorial;
+package com.example.tutorial.converter;
 
 import java.time.Duration;
 import java.time.LocalDate;
