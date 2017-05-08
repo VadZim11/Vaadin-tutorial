@@ -15,63 +15,65 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class HotelCategoryForm  extends FormLayout{
 
-private TextField hotelCategoryField = new TextField("Hotel Category");
-private Button save = new Button("Save");
-private Button delete = new Button("Delete");
+	private TextField hotelCategoryField = new TextField("Hotel Category");
+	private Button save = new Button("Save");
+	private Button delete = new Button("Delete");
 
 
-private HotelCategoryService service = HotelCategoryService.getInstance();
-private HotelCategory hotelCategory;
-private MyUI myUI;
-private Binder<HotelCategory> binder =new Binder<>(HotelCategory.class);
+	private HotelCategoryService service = HotelCategoryService.getInstance();
+	private HotelCategory hotelCategory;
+	private MyUI myUI;
+	private Binder<HotelCategory> binder =new Binder<>(HotelCategory.class);
 
-public HotelCategoryForm(MyUI myUI) {
-	this.myUI = myUI;
+	public HotelCategoryForm(MyUI myUI) {
+		this.myUI = myUI;
 	
-	setSizeUndefined();
-	HorizontalLayout buttons = new HorizontalLayout(save, delete);
-	addComponents(hotelCategoryField, buttons);
+		setSizeUndefined();
+		HorizontalLayout buttons = new HorizontalLayout(save, delete);
+		addComponents(hotelCategoryField, buttons);
 	
-	save.setStyleName(ValoTheme.BUTTON_PRIMARY);
-	save.setClickShortcut(KeyCode.ENTER);
+		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		save.setClickShortcut(KeyCode.ENTER);
 	
-	save.addClickListener(e -> save());
-	delete.addClickListener(e -> delete());
+		save.addClickListener(e -> save());
+		delete.addClickListener(e -> delete());
 	
-	hotelCategoryField.setDescription("Enter the hotel category");
-	binder.forField(hotelCategoryField)
-		  .asRequired("Hotel category in not null")
-		  .bind(HotelCategory:: getHotelCategory, HotelCategory:: setHotelCategory);
-}
-
-public void setHotelCategory(HotelCategory hotelCategory) {
-	this.hotelCategory = hotelCategory;
-	binder.setBean(hotelCategory);
-	
-	delete.setVisible(hotelCategory.isPersisted());
-	setVisible(true);
-	hotelCategoryField.selectAll();
-}
-
-private void delete() {
-	service.delete(hotelCategory);
-	myUI.updateHotelCategory();
-	setVisible(false);
-}
-
-public void delete(Set<HotelCategory> set) {
-	for (HotelCategory hotelCategory : set) {
-		service.delete(hotelCategory);
+		hotelCategoryField.setDescription("Enter the hotel category");
+		binder.forField(hotelCategoryField)
+		  	  .asRequired("Hotel category in not null")
+		  	  .bind(HotelCategory:: getHotelCategory, HotelCategory:: setHotelCategory);
 	}
-	myUI.updateHotelCategory();
-	setVisible(false);
-}
 
-private void save() {
-	service.save(hotelCategory);
-	myUI.updateHotelCategory();
+	public void setHotelCategory(HotelCategory hotelCategory) {
+		this.hotelCategory = hotelCategory;
+		binder.setBean(hotelCategory);
 	
-	setVisible(false);
+		delete.setVisible(hotelCategory.isPersisted());
+		setVisible(true);
+		hotelCategoryField.selectAll();
+		binder.validate();
 }
 
+	private void delete() {
+		service.delete(hotelCategory);
+		myUI.updateHotelCategory();
+		setVisible(false);
+	}
+
+	public void delete(Set<HotelCategory> set) {
+		for (HotelCategory hotelCategory : set) {
+			service.delete(hotelCategory);
+		}
+		myUI.updateHotelCategory();
+		setVisible(false);
+	}
+
+	private void save() {
+		binder.validate();
+		if (binder.isValid()) {
+			service.save(hotelCategory);
+			myUI.updateHotelCategory();
+			setVisible(false);
+		}
+	}
 }

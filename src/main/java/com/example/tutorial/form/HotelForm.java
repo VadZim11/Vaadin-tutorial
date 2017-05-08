@@ -113,6 +113,7 @@ public class HotelForm extends FormLayout{
 		delete.setVisible(hotel.isPersisted());
 		setVisible(true);
 		name.selectAll();
+		binder.validate();
 	}
 	
 	private void delete(){
@@ -122,8 +123,11 @@ public class HotelForm extends FormLayout{
 	}
 	
 	private void save(){
-		service.save(hotel);
-		myUI.updateHotels();
-		setVisible(false);
+		binder.validate();
+		if (binder.isValid()) {
+			service.save(hotel);
+			myUI.updateHotels();
+			setVisible(false);
+		}
 	}
 }
