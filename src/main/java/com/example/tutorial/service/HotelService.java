@@ -1,7 +1,6 @@
 package com.example.tutorial.service;
 
 import com.example.tutorial.entity.Hotel;
-import com.example.tutorial.entity.HotelCategory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -143,7 +142,8 @@ public class HotelService {
 				h.setRating(Integer.parseInt(split[1]));
 				h.setUrl(split[2]);
 				h.setAddress(split[3]);
-				h.setCategory(HotelCategory.values()[r.nextInt(HotelCategory.values().length)]);
+				h.setCategory(HotelCategoryService.getInstance().findAll()
+						.get(r.nextInt((int)HotelCategoryService.getInstance().count())));
 				long daysOld = r.nextInt(365 * 30);
 				h.setOperatesFrom(daysOld);
 				save(h);

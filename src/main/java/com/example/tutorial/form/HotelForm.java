@@ -1,9 +1,10 @@
 package com.example.tutorial.form;
 
-import com.example.tutorial.converter.DataConverter;
 import com.example.tutorial.MyUI;
+import com.example.tutorial.converter.DataConverter;
 import com.example.tutorial.entity.Hotel;
 import com.example.tutorial.entity.HotelCategory;
+import com.example.tutorial.service.HotelCategoryService;
 import com.example.tutorial.service.HotelService;
 import com.vaadin.data.Binder;
 import com.vaadin.data.converter.StringToIntegerConverter;
@@ -40,7 +41,7 @@ public class HotelForm extends FormLayout{
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);
 		addComponents(name,address,rating, operatesFrom, category, url, description, buttons);
-		category.setItems(HotelCategory.values());
+		category.setItems(HotelCategoryService.getInstance().findAll().toArray(new HotelCategory[(int)HotelCategoryService.getInstance().count()]));
 		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
@@ -97,6 +98,12 @@ public class HotelForm extends FormLayout{
 		 save.setDescription("Save");
 		 delete.setDescription("Delete");
 		
+	}
+
+	public void refreshField() {
+		category.clear();
+		category.setItems(HotelCategoryService.getInstance().findAll()
+				.toArray(new HotelCategory[(int)HotelCategoryService.getInstance().count()]));
 	}
 	
 	public void setHotel(Hotel hotel){
