@@ -55,32 +55,32 @@ public class HotelForm extends FormLayout{
 	
 	public void bindFields(){
 		binder.forField(rating)
-			  .asRequired("Rating in not null")
+			  .asRequired("Rating is not null")
 			  .withConverter(new StringToIntegerConverter(0, "Only digits!"))			  
-			  .withValidator(v -> (v < 6 ), "Rating in not > 5")
-			  .withValidator(v -> (v >= 0), "Rating in not < 0")
+			  .withValidator(v -> (v < 6 ), "Rating is not > 5")
+			  .withValidator(v -> (v >= 0), "Rating is not < 0")
 			  .bind(Hotel:: getRating, Hotel:: setRating);
 		
 		binder.forField(operatesFrom)
-			  .asRequired("OperatesFrom in not null")
+			  .asRequired("OperatesFrom is not null")
 			  .withConverter(new DataConverter())
-			  .withValidator(v -> (v >= 0), "OperatesFrom in not > Today")
+			  .withValidator(v -> (v >= 0), "OperatesFrom is not > Today")
 			  .bind(Hotel:: getOperatesFrom, Hotel:: setOperatesFrom);
 		
 		binder.forField(name)
-			  .asRequired("Name in not null")
+			  .asRequired("Name is not null")
 			  .bind(Hotel:: getName, Hotel:: setName);
 		
 		binder.forField(address)
-		  	  .asRequired("Address in not null")
+		  	  .asRequired("Address is not null")
 			  .bind(Hotel:: getAddress, Hotel:: setAddress);		
 		
 		binder.forField(category)
-		  	  .asRequired("Category in not null")
+		  	  .asRequired("Category is not null")
 			  .bind(Hotel:: getCategory, Hotel:: setCategory);
 		
 		binder.forField(url)
-		  	  .asRequired("Url in not null")
+		  	  .asRequired("Url is not null")
 			  .bind(Hotel:: getUrl, Hotel:: setUrl);
 		
 		binder.forField(description)
