@@ -1,4 +1,4 @@
-package com.example.tutorial.converter;
+package com.jpsolution.vaadin.converter;
 
 import java.time.Duration;
 import java.time.LocalDate;

@@ -1,11 +1,11 @@
-package com.example.tutorial.form;
+package com.jpsolution.vaadin.form;
 
-import com.example.tutorial.MyUI;
-import com.example.tutorial.converter.DataConverter;
-import com.example.tutorial.entity.Hotel;
-import com.example.tutorial.entity.HotelCategory;
-import com.example.tutorial.service.HotelCategoryService;
-import com.example.tutorial.service.HotelService;
+import com.jpsolution.vaadin.MyUI;
+import com.jpsolution.vaadin.converter.DataConverter;
+import com.jpsolution.vaadin.entity.Hotel;
+import com.jpsolution.vaadin.entity.HotelCategory;
+import com.jpsolution.vaadin.service.HotelCategoryService;
+import com.jpsolution.vaadin.service.HotelService;
 import com.vaadin.data.Binder;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.event.ShortcutAction.KeyCode;

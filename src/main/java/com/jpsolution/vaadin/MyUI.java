@@ -1,15 +1,15 @@
-package com.example.tutorial;
+package com.jpsolution.vaadin;
 
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.example.tutorial.entity.Hotel;
-import com.example.tutorial.entity.HotelCategory;
-import com.example.tutorial.form.HotelCategoryForm;
-import com.example.tutorial.form.HotelForm;
-import com.example.tutorial.service.HotelCategoryService;
-import com.example.tutorial.service.HotelService;
+import com.jpsolution.vaadin.entity.Hotel;
+import com.jpsolution.vaadin.entity.HotelCategory;
+import com.jpsolution.vaadin.form.HotelCategoryForm;
+import com.jpsolution.vaadin.form.HotelForm;
+import com.jpsolution.vaadin.service.HotelCategoryService;
+import com.jpsolution.vaadin.service.HotelService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.icons.VaadinIcons;

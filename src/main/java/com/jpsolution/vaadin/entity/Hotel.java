@@ -1,4 +1,4 @@
-package com.example.tutorial.entity;
+package com.jpsolution.vaadin.entity;
 
 import java.io.Serializable;
 

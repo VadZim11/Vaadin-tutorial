@@ -1,10 +1,10 @@
-package com.example.tutorial.form;
+package com.jpsolution.vaadin.form;
 
 import java.util.Set;
 
-import com.example.tutorial.MyUI;
-import com.example.tutorial.entity.HotelCategory;
-import com.example.tutorial.service.HotelCategoryService;
+import com.jpsolution.vaadin.MyUI;
+import com.jpsolution.vaadin.entity.HotelCategory;
+import com.jpsolution.vaadin.service.HotelCategoryService;
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;

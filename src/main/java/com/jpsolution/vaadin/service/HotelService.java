@@ -1,6 +1,6 @@
-package com.example.tutorial.service;
+package com.jpsolution.vaadin.service;
 
-import com.example.tutorial.entity.Hotel;
+import com.jpsolution.vaadin.entity.Hotel;
 
 import java.util.ArrayList;
 import java.util.Collections;
