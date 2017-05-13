@@ -3,8 +3,8 @@ package com.jpsolution.vaadin.form;
 import java.util.Set;
 
 import com.jpsolution.vaadin.MyUI;
-import com.jpsolution.vaadin.entity.HotelCategory;
-import com.jpsolution.vaadin.service.HotelCategoryService;
+import com.jpsolution.vaadin.entity.CategoryEntity;
+import com.jpsolution.vaadin.service.impl.CategoryServiceImpl;
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
@@ -13,19 +13,19 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class HotelCategoryForm  extends FormLayout{
+public class CategoryForm extends FormLayout{
 
-	private TextField hotelCategoryField = new TextField("Hotel Category");
+	private TextField hotelCategoryField = new TextField("HotelEntity Category");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 
 
-	private HotelCategoryService service = HotelCategoryService.getInstance();
-	private HotelCategory hotelCategory;
+	private CategoryServiceImpl service = CategoryServiceImpl.getInstance();
+	private CategoryEntity categoryEntity;
 	private MyUI myUI;
-	private Binder<HotelCategory> binder =new Binder<>(HotelCategory.class);
+	private Binder<CategoryEntity> binder =new Binder<>(CategoryEntity.class);
 
-	public HotelCategoryForm(MyUI myUI) {
+	public CategoryForm(MyUI myUI) {
 		this.myUI = myUI;
 	
 		setSizeUndefined();
@@ -40,29 +40,29 @@ public class HotelCategoryForm  extends FormLayout{
 	
 		hotelCategoryField.setDescription("Enter the hotel category");
 		binder.forField(hotelCategoryField)
-		  	  .asRequired("Hotel category in not null")
-		  	  .bind(HotelCategory:: getHotelCategory, HotelCategory:: setHotelCategory);
+		  	  .asRequired("HotelEntity category in not null")
+		  	  .bind(CategoryEntity:: getCategory, CategoryEntity:: setCategory);
 	}
 
-	public void setHotelCategory(HotelCategory hotelCategory) {
-		this.hotelCategory = hotelCategory;
-		binder.setBean(hotelCategory);
+	public void setCategoryEntity(CategoryEntity categoryEntity) {
+		this.categoryEntity = categoryEntity;
+		binder.setBean(categoryEntity);
 	
-		delete.setVisible(hotelCategory.isPersisted());
+		delete.setVisible(categoryEntity.isPersisted());
 		setVisible(true);
 		hotelCategoryField.selectAll();
 		binder.validate();
 }
 
 	private void delete() {
-		service.delete(hotelCategory);
+		service.delete(categoryEntity);
 		myUI.updateHotelCategory();
 		setVisible(false);
 	}
 
-	public void delete(Set<HotelCategory> set) {
-		for (HotelCategory hotelCategory : set) {
-			service.delete(hotelCategory);
+	public void delete(Set<CategoryEntity> set) {
+		for (CategoryEntity categoryEntity : set) {
+			service.delete(categoryEntity);
 		}
 		myUI.updateHotelCategory();
 		setVisible(false);
@@ -71,7 +71,7 @@ public class HotelCategoryForm  extends FormLayout{
 	private void save() {
 		binder.validate();
 		if (binder.isValid()) {
-			service.save(hotelCategory);
+			service.save(categoryEntity);
 			myUI.updateHotelCategory();
 			setVisible(false);
 		}
