@@ -1,8 +1,8 @@
-package com.jpsolution.vaadin.form;
+package com.jpsolution.vaadin.app.form;
 
 import java.util.Set;
 
-import com.jpsolution.vaadin.MyUI;
+import com.jpsolution.vaadin.app.views.CategoryView;
 import com.jpsolution.vaadin.entity.Category;
 import com.jpsolution.vaadin.service.impl.CategoryServiceImpl;
 import com.vaadin.data.Binder;
@@ -14,19 +14,20 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class CategoryForm extends FormLayout{
-
 	private TextField categoryField = new TextField("Hotel Category");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
-
-
-	private CategoryServiceImpl service = CategoryServiceImpl.getInstance();
+	private CategoryServiceImpl categoryServiceImpl;
 	private Category category;
-	private MyUI myUI;
+	private CategoryView myUI;
+	private CategoryServiceImpl service;
+
 	private Binder<Category> binder =new Binder<>(Category.class);
 
-	public CategoryForm(MyUI myUI) {
+	public CategoryForm(CategoryView myUI, CategoryServiceImpl service) {
 		this.myUI = myUI;
+		this.service = service;
+		this.setVisible(false);
 	
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save, delete);
@@ -55,24 +56,21 @@ public class CategoryForm extends FormLayout{
 }
 
 	private void delete() {
-		service.delete(category);
-		myUI.updateHotelCategory();
+		service.deleteCategory(category);
 		setVisible(false);
 	}
 
 	public void delete(Set<Category> set) {
 		for (Category category : set) {
-			service.delete(category);
+			service.deleteCategory(category);
 		}
-		myUI.updateHotelCategory();
 		setVisible(false);
 	}
 
 	private void save() {
 		binder.validate();
 		if (binder.isValid()) {
-			service.save(category);
-			myUI.updateHotelCategory();
+			service.saveCategory(category);
 			setVisible(false);
 		}
 	}

@@ -96,9 +96,7 @@ public class Hotel extends AbstractEntity{
 		this.description = description;
 	}
 
-	public Hotel(Long id, String name, Long optlog, String address, Integer rating, Long operatesFrom, Category category, String url, String description) {
-		super();
-		this.id = id;
+	public Hotel(String name, Long optlog, String address, Integer rating, Long operatesFrom, Category category, String url, String description) {
 		this.name = name;
 		this.optlog = optlog;
 		this.address = address;

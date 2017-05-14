@@ -7,9 +7,9 @@ import java.util.List;
 public interface HotelService {
 
     // Find all hotels with the given name and address.
-    List<Hotel> getdAll();
+    List<Hotel> getHotel();
     // Save or update hotel.
-    Hotel save(Hotel hotel);
+    void saveHotel(Hotel hotel);
     // Delete hotel.
-    void delete(Long id);
+    void deleteHotel(Hotel hotel);
 }

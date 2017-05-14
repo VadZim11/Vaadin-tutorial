@@ -1,6 +1,7 @@
-package com.jpsolution.vaadin.form;
+package com.jpsolution.vaadin.app.form;
 
-import com.jpsolution.vaadin.MyUI;
+import com.jpsolution.vaadin.app.MyUI;
+import com.jpsolution.vaadin.app.views.HotelView;
 import com.jpsolution.vaadin.converter.DataConverter;
 import com.jpsolution.vaadin.entity.Hotel;
 import com.jpsolution.vaadin.entity.Category;
@@ -9,13 +10,7 @@ import com.jpsolution.vaadin.service.impl.HotelServiceImpl;
 import com.vaadin.data.Binder;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class HotelForm extends FormLayout{
@@ -23,32 +18,29 @@ public class HotelForm extends FormLayout{
 	private TextField name = new TextField("Name");
 	private TextField address = new TextField("Address");
 	private TextField rating = new TextField("Rating");
-	private DateField operatesFrom = new DateField("Operates From");
-	private NativeSelect<Category> category = new NativeSelect<>("Category");
 	private TextField url = new TextField("URL");
 	private TextArea description = new TextArea("Description");
+	private DateField operatesFrom = new DateField("Operates From");
+	private NativeSelect<Category> category = new NativeSelect<>("Category");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
-	
-	private HotelServiceImpl service = HotelServiceImpl.getInstance();
+	private HotelServiceImpl service;
 	private Hotel hotel;
-	private MyUI myUI;
+	private HotelView myUI;
 	private Binder<Hotel> binder = new Binder<>(Hotel.class);
 	
-	public HotelForm(MyUI myUI){
+	public HotelForm(HotelView myUI, HotelServiceImpl service){
 		this.myUI = myUI;
-		
+		this.service=service;
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);
 		addComponents(name,address,rating, operatesFrom, category, url, description, buttons);
-		category.setItems(CategoryServiceImpl.getInstance().findAll().toArray(new Category[(int) CategoryServiceImpl.getInstance().count()]));
-		
+		refreshField();
+		category.setItemCaptionGenerator(Category::getCategory);
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
-		
-		save.addClickListener(e -> save());
-		delete.addClickListener(e -> delete());
-		
+		save.addClickListener(e -> saveHotel());
+		delete.addClickListener(e -> deleteHotel());
 		toolTipFields();
 		bindFields();
 	}
@@ -97,37 +89,41 @@ public class HotelForm extends FormLayout{
 		 description.setDescription("Enter your description of the hotel");
 		 save.setDescription("Save");
 		 delete.setDescription("Delete");
-		
 	}
 
 	public void refreshField() {
 		category.clear();
-		category.setItems(CategoryServiceImpl.getInstance().findAll()
-				.toArray(new Category[(int) CategoryServiceImpl.getInstance().count()]));
+		category.setItems(service.getCategories());
+	}
+
+	public Hotel getHotel() {
+		return hotel;
 	}
 	
-	public void setHotelEntity(Hotel hotel){
+	public void setHotel(Hotel hotel){
+		refreshField();
 		this.hotel = hotel;
 		binder.setBean(hotel);
-		
 		delete.setVisible(hotel.isPersisted());
 		setVisible(true);
 		name.selectAll();
 		binder.validate();
 	}
 	
-	private void delete(){
-		service.delete(hotel);
-		myUI.updateHotels();
+	private void deleteHotel(){
+		service.deleteHotel(hotel);
+		this.myUI.updateHotels();
 		setVisible(false);
 	}
 	
-	private void save(){
-		binder.validate();
+	private void saveHotel(){
 		if (binder.isValid()) {
-			service.save(hotel);
-			myUI.updateHotels();
+			service.saveHotel(this.hotel);
+			this.myUI.updateHotels();
 			setVisible(false);
+		} else {
+			Notification.show("Fields not correctly!!");
+			binder.validate();
 		}
 	}
 }

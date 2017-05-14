@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface CategoryService {
 
-    // Find category.
-    List<Category> getdAll();
-    // Save or update category.
-    Category save(Category category);
-    // Delete category.
-    void delete(Long id);
+    // Find category
+    List<Category> getCategory();
+    // Save or update category
+    void saveCategory(Category category);
+    // Delete category
+    void deleteCategory(Category category);
 }
