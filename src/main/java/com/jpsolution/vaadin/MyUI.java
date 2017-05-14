@@ -1,15 +1,15 @@
-package com.example.tutorial;
+package com.jpsolution.vaadin;
 
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.example.tutorial.entity.Hotel;
-import com.example.tutorial.entity.HotelCategory;
-import com.example.tutorial.form.HotelCategoryForm;
-import com.example.tutorial.form.HotelForm;
-import com.example.tutorial.service.HotelCategoryService;
-import com.example.tutorial.service.HotelService;
+import com.jpsolution.vaadin.entity.HotelEntity;
+import com.jpsolution.vaadin.entity.CategoryEntity;
+import com.jpsolution.vaadin.form.CategoryForm;
+import com.jpsolution.vaadin.form.HotelForm;
+import com.jpsolution.vaadin.service.impl.CategoryServiceImpl;
+import com.jpsolution.vaadin.service.impl.HotelServiceImpl;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.icons.VaadinIcons;
@@ -34,17 +34,17 @@ import com.vaadin.ui.themes.ValoTheme;
 @Theme("mytheme")
 public class MyUI extends UI {
 	
-	private HotelService serviceHotel = HotelService.getInstance();
-	private HotelCategoryService serviceHotelCategory = HotelCategoryService.getInstance();
+	private HotelServiceImpl serviceHotel = HotelServiceImpl.getInstance();
+	private CategoryServiceImpl serviceCategory = CategoryServiceImpl.getInstance();
 	
-	private Grid<Hotel> gridHotel = new Grid<>(Hotel.class);
-	private Grid<HotelCategory> gridHotelCategory = new Grid<>(HotelCategory.class);
+	private Grid<HotelEntity> gridHotel = new Grid<>(HotelEntity.class);
+	private Grid<CategoryEntity> gridCategory = new Grid<>(CategoryEntity.class);
 	
 	private TextField filterName = new TextField();
 	private TextField filterAddress = new TextField();
 
 	private HotelForm formHotel = new HotelForm(this);
-    private HotelCategoryForm formHotelCategory = new HotelCategoryForm(this);
+    private CategoryForm formCategory = new CategoryForm(this);
     private MenuBar barmenu = new MenuBar();
     private Label selection = new Label();
 	
@@ -79,7 +79,7 @@ public class MyUI extends UI {
         addHotelButton.setDescription("Add new hotel");
         addHotelButton.addClickListener(e -> {
         	gridHotel.asSingleSelect().clear();
-            formHotel.setHotel(new Hotel(0L, "", "", 0, 0L, serviceHotelCategory.getDefault(), "", ""));
+            formHotel.setHotelEntity(new HotelEntity(0L, "",0L, "", 0, 0L, serviceCategory.getDefault(), "", " "));
         });
         
         HorizontalLayout toolbar = new HorizontalLayout(filtering, addHotelButton);
@@ -109,7 +109,7 @@ public class MyUI extends UI {
         	if(event.getValue()==null){
                 formHotel.setVisible(false);
         	} else {
-                formHotel.setHotel(event.getValue());
+                formHotel.setHotelEntity(event.getValue());
         	}
         });
 
@@ -123,31 +123,31 @@ public class MyUI extends UI {
                 selectedItem.setStyleName("highlight");
                 previous = selectedItem;
 
-                gridHotelCategory.setSelectionMode(SelectionMode.MULTI);
-                formHotelCategory.setVisible(false);
+                gridCategory.setSelectionMode(SelectionMode.MULTI);
+                formCategory.setVisible(false);
 
                 Button addNewHotelCategoryButton = new Button("New");
-                addNewHotelCategoryButton.setDescription("Add new Hotel Category");
+                addNewHotelCategoryButton.setDescription("Add new HotelEntity Category");
                 addNewHotelCategoryButton.addClickListener(e -> {
-                    gridHotelCategory.asMultiSelect().clear();
-                    formHotelCategory.setHotelCategory(new HotelCategory(null, ""));
-                    gridHotelCategory.asMultiSelect().clear();
+                    gridCategory.asMultiSelect().clear();
+                    formCategory.setCategoryEntity(new CategoryEntity(null, ""));
+                    gridCategory.asMultiSelect().clear();
                     formHotel.refreshField();
                 });
 
                 Button editHotelCategoryButton = new Button("Edit");
-                editHotelCategoryButton.setDescription("Edit Hotel Category");
+                editHotelCategoryButton.setDescription("Edit HotelEntity Category");
                 editHotelCategoryButton.addClickListener(event -> {
-                    formHotelCategory.setHotelCategory(gridHotelCategory.asMultiSelect().getSelectedItems().iterator().next());
-                    gridHotelCategory.asMultiSelect().clear();
+                    formCategory.setCategoryEntity(gridCategory.asMultiSelect().getSelectedItems().iterator().next());
+                    gridCategory.asMultiSelect().clear();
                     formHotel.refreshField();
                 });
 
                 Button deleteHotelCategoryButton = new Button("Delete");
-                deleteHotelCategoryButton.setDescription("Delete Hotel Category");
+                deleteHotelCategoryButton.setDescription("Delete HotelEntity Category");
                 deleteHotelCategoryButton.addClickListener(e -> {
-                    formHotelCategory.delete(gridHotelCategory.asMultiSelect().getSelectedItems());
-                    gridHotelCategory.asMultiSelect().clear();
+                    formCategory.delete(gridCategory.asMultiSelect().getSelectedItems());
+                    gridCategory.asMultiSelect().clear();
                     formHotel.refreshField();
                 });
 
@@ -155,7 +155,7 @@ public class MyUI extends UI {
                 editHotelCategoryButton.setVisible(false);
                 deleteHotelCategoryButton.setVisible(false);
 
-                gridHotelCategory.asMultiSelect().addValueChangeListener(event -> {
+                gridCategory.asMultiSelect().addValueChangeListener(event -> {
                     if(event.getValue().size() == 1) {
                         editHotelCategoryButton.setVisible(true);
                         deleteHotelCategoryButton.setVisible(true);
@@ -171,11 +171,11 @@ public class MyUI extends UI {
 
                 HorizontalLayout toolbar = new HorizontalLayout(addNewHotelCategoryButton,
                                          editHotelCategoryButton, deleteHotelCategoryButton);
-                HorizontalLayout category = new HorizontalLayout(gridHotelCategory, formHotelCategory);
-                gridHotelCategory.setSizeUndefined();
+                HorizontalLayout category = new HorizontalLayout(gridCategory, formCategory);
+                gridCategory.setSizeUndefined();
 
-                gridHotelCategory.asMultiSelect().clear();
-                gridHotelCategory.setColumns("hotelCategory");
+                gridCategory.asMultiSelect().clear();
+                gridCategory.setColumns("category");
 
                 layout.removeAllComponents();
                 layout.addComponents(selection, barmenu, toolbar, category);
@@ -199,19 +199,19 @@ public class MyUI extends UI {
             }
         };
 
-        barmenu.addItem("Hotel List", null, hotelList);
-        barmenu.addItem("Hotel Categories", null, hotelCategories);
+        barmenu.addItem("HotelEntity List", null, hotelList);
+        barmenu.addItem("HotelEntity Categories", null, hotelCategories);
     }    
 
 	public void updateHotels(){
-		List<Hotel> hotel = serviceHotel.findAll(filterName.getValue(), filterAddress.getValue());
+		List<HotelEntity> hotelEntity = serviceHotel.findAll(filterName.getValue(), filterAddress.getValue());
 	
-        gridHotel.setItems(hotel);
+        gridHotel.setItems(hotelEntity);
 	}
 	
 	public void updateHotelCategory(){
-		List<HotelCategory> hotelCategories = serviceHotelCategory.findAll();
-        gridHotelCategory.setItems(hotelCategories);
+		List<CategoryEntity> hotelCategories = serviceCategory.findAll();
+        gridCategory.setItems(hotelCategories);
 	}
 	
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
