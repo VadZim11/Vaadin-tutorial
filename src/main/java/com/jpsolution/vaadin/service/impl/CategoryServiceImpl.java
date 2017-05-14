@@ -1,35 +1,38 @@
 package com.jpsolution.vaadin.service.impl;
 
 import com.jpsolution.vaadin.entity.CategoryEntity;
+import com.jpsolution.vaadin.repository.CategoryEntityRepository;
+import com.jpsolution.vaadin.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Service
+public class CategoryServiceImpl implements CategoryService {
 
-/*@Repository
-@Service("jpaCategoryDAO")
-@Transactional*/
-public class CategoryServiceImpl {
+    @Autowired
+    private CategoryEntityRepository categoryEntityRepository;
 
-	/*@PersistenceContext
-	private EntityManager em;
+    @Override
+    public List<CategoryEntity> getdAll() {
+        return categoryEntityRepository.findAll();
+    }
 
-	@Override
-	public List<CategoryEntity> findAll() {
-		return em.createNamedQuery("CategoryEntity.findAll", CategoryEntity.class).getResultList();
-	}
+    @Override
+    public CategoryEntity save(CategoryEntity categoryEntity) {
+        CategoryEntity savedCategoryEntity = categoryEntityRepository.saveAndFlush(categoryEntity);
 
-	@Override
-	public CategoryEntity save(CategoryEntity categoryEntity) { return null;}
+        return savedCategoryEntity;
+    }
 
-	@Override
-	public void delete(CategoryEntity categoryEntity) {return null;}
-	*/
+    @Override
+    public void delete(Long id) {
+        categoryEntityRepository.delete(id);
+    }
+
 	private static CategoryServiceImpl instance;
 	private static final Logger LOGGER = Logger.getLogger(CategoryServiceImpl.class.getName());
 	
@@ -81,22 +84,8 @@ public class CategoryServiceImpl {
 	public synchronized void delete(CategoryEntity value) {
 		categories.remove(value.getId());
 	}
-	
-	public synchronized void save(CategoryEntity entry) {
-		if (entry == null) {
-			LOGGER.log(Level.SEVERE, "HotelEntity category is null.");
-			return;
-		}
-		if (entry.getId() == null) {
-			entry.setId(nextId++);
-		}
-		try {
-			entry = (CategoryEntity) entry.clone();
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-		categories.put(entry.getId(), entry);
-	}
+
+
 	
 	public void ensureTestData() {
 		if (findAll().isEmpty()) {

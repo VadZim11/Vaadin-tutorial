@@ -1,6 +1,10 @@
 package com.jpsolution.vaadin.service.impl;
 
 import com.jpsolution.vaadin.entity.HotelEntity;
+import com.jpsolution.vaadin.repository.HotelEntityRepository;
+import com.jpsolution.vaadin.service.HotelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +15,28 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class HotelServiceImpl {
+@Service
+public class HotelServiceImpl implements HotelService{
+
+    @Autowired
+    private HotelEntityRepository hotelEntityRepository;
+
+    @Override
+    public List<HotelEntity> getdAll() {
+        return hotelEntityRepository.findAll();
+    }
+
+    @Override
+    public HotelEntity save(HotelEntity hotelEntity) {
+        HotelEntity savedHotelEntity = hotelEntityRepository.saveAndFlush(hotelEntity);
+
+        return savedHotelEntity;
+    }
+
+    @Override
+    public void delete(Long id) {
+        hotelEntityRepository.delete(id);
+    }
 
 	private static HotelServiceImpl instance;
 	private static final Logger LOGGER = Logger.getLogger(HotelServiceImpl.class.getName());
@@ -91,21 +116,6 @@ public class HotelServiceImpl {
 		hotels.remove(value.getId());
 	}
 
-	public synchronized void save(HotelEntity entry) {
-		if (entry == null) {
-			LOGGER.log(Level.SEVERE, "HotelEntity is null.");
-			return;
-		}
-		if (entry.getId() == null) {
-			entry.setId(nextId++);
-		}
-		try {
-			entry = (HotelEntity) entry.clone();
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-		hotels.put(entry.getId(), entry);
-	}
 
 	public void ensureTestData() {
 		if (findAll().isEmpty()) {

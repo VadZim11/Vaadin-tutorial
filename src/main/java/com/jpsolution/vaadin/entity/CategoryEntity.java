@@ -26,6 +26,7 @@ public class CategoryEntity {
 		this.id = id;
 	}
 
+	@Basic
 	@Column(name = "CATEGORY")
 	@NotNull(message = "Hotel category is required")
 	public String getCategory() {
