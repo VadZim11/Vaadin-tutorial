@@ -1,52 +1,35 @@
-vaadin-tutorial
-==============
+ ## Задание:
+  
 
-Template for a simple Vaadin application that only requires a Servlet 3.0 container to run.
+ ###  1
+  
+  0. По аналогии с Tutorial, создать страницу для просмотра, редактирования, добавления, удаления отелей.
+  
+ 1. В отель надо добавить новое поле описание и вывести его в TextArea. Необязательно заполнять данные для него в ensureTestData(), просто добавляйте поле и убедитесь чтобы оно работало на редактировании, добавлении.
+ 
+ 2. Ссылку на booking.com вывести как Link
+  
+  3. Фильтр разбить на 2 отдельных поля: по имени и по адресу, для этого вам придется редактировать HotelService.
+  
 
-
-Workflow
-========
-
-To compile the entire project, run "mvn install".
-
-To run the application, run "mvn jetty:run" and open http://localhost:8080/ .
-
-To produce a deployable production mode WAR:
-- change productionMode to true in the servlet class configuration (nested in the UI class)
-- run "mvn clean package"
-- test the war file with "mvn jetty:run-war"
-
-Client-Side compilation
--------------------------
-
-The generated maven project is using an automatically generated widgetset by default. 
-When you add a dependency that needs client-side compilation, the maven plugin will 
-automatically generate it for you. Your own client-side customisations can be added into
-package "client".
-
-Debugging client side code
-  - run "mvn vaadin:run-codeserver" on a separate console while the application is running
-  - activate Super Dev Mode in the debug window of the application
-
-Developing a theme using the runtime compiler
--------------------------
-
-When developing the theme, Vaadin can be configured to compile the SASS based
-theme at runtime in the server. This way you can just modify the scss files in
-your IDE and reload the browser to see changes.
-
-To use the runtime compilation, open pom.xml and comment out the compile-theme 
-goal from vaadin-maven-plugin configuration. To remove a possibly existing 
-pre-compiled theme, run "mvn clean package" once.
-
-When using the runtime compiler, running the application in the "run" mode 
-(rather than in "debug" mode) can speed up consecutive theme compilations
-significantly.
-
-It is highly recommended to disable runtime compilation for production WAR files.
-
-Using Vaadin pre-releases
--------------------------
-
-If Vaadin pre-releases are not enabled by default, use the Maven parameter
-"-P vaadin-prerelease" or change the activation default value of the profile in pom.xml .
+ ### 2
+  
+  0. Поля rating, operatesFrom класса Hotel сделать Interger, Long и добавить к ним валидацию.
+  Ко всем полям на форме добавить ToolTip-ы с описанием значения поля.
+ Все поля кроме описания отеля дожны быть обязательными к заполнению.
+ 
+ 1. Добавить меню с 2 пунктами:
+ - Hotel List
+ - Hotel Categories
+ 
+ 2. Hotel List содержит текущий список и форму.
+ Hotel Categories новая форма для редактирования списка значений Category, можно редактировать текущее значение, добавлять новое и удалять старое.
+ Список сделать MultiSelect-ом, если выбрано несколько записей, доступны только операции: New, Delete
+ Если выбран один элемент, доступны все операции: New, Edit, Delete
+ 
+ 3. На странице Hotel List обновить поле Category таким образом, чтобы значения брались из списка, который редактируется на странице Hotel Categories
+ 
+ 
+  ### 3
+  
+ 0. Подключить базу данных, сущности переделать в JPA Entity и переделать сервис для работы с базой.
