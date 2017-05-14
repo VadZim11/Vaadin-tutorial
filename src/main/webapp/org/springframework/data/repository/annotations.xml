@@ -1,5 +1,0 @@
-<root>
-    <item name='org.springframework.data.repository.CrudRepository void delete(T)'>
-        <annotation name='java.lang.Deprecated'/>
-    </item>
-</root>
