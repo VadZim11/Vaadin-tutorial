@@ -3,33 +3,20 @@ package com.jpsolution.vaadin.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "hotel")
-public class HotelEntity{
+public class Hotel extends AbstractEntity{
 
-	private Long id;
 	private Long optlog;
 	private String name;
 	private String address;
 	private Integer rating;
 	private Long operatesFrom;
-	private CategoryEntity category;
+	private Category category;
 	private String url;
 	private String description;
 
-	public HotelEntity() {
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public Hotel() {
 	}
 
 	@Column(name = "OPTLOG")
@@ -79,14 +66,14 @@ public class HotelEntity{
 		this.operatesFrom = operatesFrom;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CATEGORY")
 	@NotNull(message = "Category is required")
-	public CategoryEntity getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(CategoryEntity category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
@@ -109,7 +96,8 @@ public class HotelEntity{
 		this.description = description;
 	}
 
-	public HotelEntity(Long id, String name,Long optlog, String address, Integer rating, Long operatesFrom, CategoryEntity category, String url, String description) {
+	public Hotel(Long id, String name, Long optlog, String address, Integer rating, Long operatesFrom, Category category, String url, String description) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.optlog = optlog;
@@ -127,8 +115,8 @@ public class HotelEntity{
 	}
 
 	@Override
-	public HotelEntity clone() throws CloneNotSupportedException {
-		return (HotelEntity) super.clone();
+	public Hotel clone() throws CloneNotSupportedException {
+		return (Hotel) super.clone();
 	}
 
 	@Override
@@ -152,7 +140,7 @@ public class HotelEntity{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		HotelEntity other = (HotelEntity) obj;
+		Hotel other = (Hotel) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -187,6 +175,6 @@ public class HotelEntity{
 
 	@Transient
 	public boolean isPersisted() {
-		return id != null;
+		return getId()!=null;
 	}
 }

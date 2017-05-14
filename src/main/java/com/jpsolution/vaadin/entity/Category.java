@@ -3,27 +3,13 @@ package com.jpsolution.vaadin.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "category")
-public class CategoryEntity {
+public class Category extends AbstractEntity{
 
-	private Long id;
 	private String category;
 
-	public CategoryEntity() {
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public Category() {
 	}
 
 	@Basic
@@ -37,7 +23,8 @@ public class CategoryEntity {
 		this.category = category;
 	}
 
-	public CategoryEntity(Long id, String category) {
+	public Category(Long id, String category) {
+		super();
 		this.id = id;
 		this.category = category;
 	}
@@ -48,8 +35,8 @@ public class CategoryEntity {
 	}
 
 	@Override
-	public CategoryEntity clone() throws CloneNotSupportedException {
-		return (CategoryEntity) super.clone();
+	public Category clone() throws CloneNotSupportedException {
+		return (Category) super.clone();
 	}
 
 	@Override
@@ -67,7 +54,7 @@ public class CategoryEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CategoryEntity other = (CategoryEntity) obj;
+		Category other = (Category) obj;
 		if (category == null) {
 			if (other.category != null)
 				return false;
@@ -78,7 +65,7 @@ public class CategoryEntity {
 
 	@Transient
 	public boolean isPersisted() {
-		return id != null;
+		return getId()!=null;
 	}
 
 }
