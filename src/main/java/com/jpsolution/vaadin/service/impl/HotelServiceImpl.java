@@ -1,9 +1,12 @@
 package com.jpsolution.vaadin.service.impl;
 
+import com.jpsolution.vaadin.entity.Category;
 import com.jpsolution.vaadin.entity.Hotel;
+import com.jpsolution.vaadin.repository.CategoryRepository;
 import com.jpsolution.vaadin.repository.HotelRepository;
 import com.jpsolution.vaadin.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,34 +23,41 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Stateless
+@Service()
 public class HotelServiceImpl implements HotelService{
 
     public HotelServiceImpl() {
     }
 
-    @Inject
+    @Autowired
+    @Qualifier("hotelRepository")
     private HotelRepository hotelRepository;
 
-    @PersistenceContext(unitName = "demo_hotels")
-    EntityManager em;
-
+    @Autowired
+    @Qualifier("categoryRepository")
+    private CategoryRepository categoryRepository;
 
     @Override
-    public List<Hotel> getdAll() {
-        return hotelRepository.findAll();
+    public List<Hotel> getHotel() {
+        List<Hotel> list = hotelRepository.list(Hotel.class);
+        return list;
     }
 
     @Override
-    public Hotel save(Hotel hotel) {
-        Hotel savedHotel = hotelRepository.saveAndFlush(hotel);
-
-        return savedHotel;
+    public void saveHotel(Hotel hotel) {hotelRepository.merge(hotel);
     }
 
     @Override
-    public void delete(Long id) {
-        hotelRepository.delete(id);
+    public void deleteHotel(Hotel hotel) {
+        hotelRepository.delete(Hotel.class, hotel.getId());
+    }
+
+    public List<Category> getCategories(){
+        return categoryRepository.list(Category.class);
+    }
+
+    public List<Hotel> filter(String name, String address) {
+        return  hotelRepository.filter(name,address);
     }
 
 	/*private static HotelServiceImpl instance;

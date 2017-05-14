@@ -1,8 +1,12 @@
 package com.jpsolution.vaadin.repository;
 
 
-import com.jpsolution.vaadin.entity.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
+
+@Repository(value="categoryRepository")
+@Transactional
+public class CategoryRepository extends GenericDaoJpaImpl{
         }

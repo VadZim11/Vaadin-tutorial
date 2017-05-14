@@ -4,6 +4,7 @@ import com.jpsolution.vaadin.entity.Category;
 import com.jpsolution.vaadin.repository.CategoryRepository;
 import com.jpsolution.vaadin.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,26 +15,26 @@ import java.util.logging.Logger;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
+    @Qualifier("categoryRepository")
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> getdAll() {
-        return categoryRepository.findAll();
+    public List<Category> getCategory(){
+        List<Category> list = categoryRepository.list(Category.class);
+        return list;
     }
 
     @Override
-    public Category save(Category category) {
-        Category savedCategory = categoryRepository.saveAndFlush(category);
-
-        return savedCategory;
+    public void saveCategory(Category category){
+        categoryRepository.merge(category);
     }
 
     @Override
-    public void delete(Long id) {
-        categoryRepository.delete(id);
+    public void deleteCategory(Category category) {
+        categoryRepository.delete(Category.class, category.getId());
     }
 
-	/*private static CategoryServiceImpl instance;
+    /*private static CategoryServiceImpl instance;
 	private static final Logger LOGGER = Logger.getLogger(CategoryServiceImpl.class.getName());
 	
 	private final HashMap<Long, Category> categories = new HashMap<>();
@@ -85,8 +86,6 @@ public class CategoryServiceImpl implements CategoryService {
 		categories.remove(value.getId());
 	}
 
-
-	
 	public void ensureTestData() {
 		if (findAll().isEmpty()) {
 			String[] categoryData = new String[] {"Hotel", "Hostel", "GuestHouse", "Appartments"};

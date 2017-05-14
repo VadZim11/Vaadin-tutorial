@@ -23,9 +23,7 @@ public class Category extends AbstractEntity{
 		this.category = category;
 	}
 
-	public Category(Long id, String category) {
-		super();
-		this.id = id;
+	public Category(String category) {
 		this.category = category;
 	}
 
