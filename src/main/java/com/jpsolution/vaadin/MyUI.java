@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.jpsolution.vaadin.entity.HotelEntity;
-import com.jpsolution.vaadin.entity.CategoryEntity;
+import com.jpsolution.vaadin.entity.Hotel;
+import com.jpsolution.vaadin.entity.Category;
 import com.jpsolution.vaadin.form.CategoryForm;
 import com.jpsolution.vaadin.form.HotelForm;
 import com.jpsolution.vaadin.service.impl.CategoryServiceImpl;
@@ -37,8 +37,8 @@ public class MyUI extends UI {
 	private HotelServiceImpl serviceHotel = HotelServiceImpl.getInstance();
 	private CategoryServiceImpl serviceCategory = CategoryServiceImpl.getInstance();
 	
-	private Grid<HotelEntity> gridHotel = new Grid<>(HotelEntity.class);
-	private Grid<CategoryEntity> gridCategory = new Grid<>(CategoryEntity.class);
+	private Grid<Hotel> gridHotel = new Grid<>(Hotel.class);
+	private Grid<Category> gridCategory = new Grid<>(Category.class);
 	
 	private TextField filterName = new TextField();
 	private TextField filterAddress = new TextField();
@@ -79,7 +79,7 @@ public class MyUI extends UI {
         addHotelButton.setDescription("Add new hotel");
         addHotelButton.addClickListener(e -> {
         	gridHotel.asSingleSelect().clear();
-            formHotel.setHotelEntity(new HotelEntity(0L, "",0L, "", 0, 0L, serviceCategory.getDefault(), "", " "));
+            formHotel.setHotelEntity(new Hotel(0L, "",0L, "", 0, 0L, serviceCategory.getDefault(), "", " "));
         });
         
         HorizontalLayout toolbar = new HorizontalLayout(filtering, addHotelButton);
@@ -127,50 +127,50 @@ public class MyUI extends UI {
                 formCategory.setVisible(false);
 
                 Button addNewHotelCategoryButton = new Button("New");
-                addNewHotelCategoryButton.setDescription("Add new HotelEntity Category");
+                addNewHotelCategoryButton.setDescription("Add new Hotel Category");
                 addNewHotelCategoryButton.addClickListener(e -> {
                     gridCategory.asMultiSelect().clear();
-                    formCategory.setCategoryEntity(new CategoryEntity(null, ""));
+                    formCategory.setCategory(new Category(null, ""));
                     gridCategory.asMultiSelect().clear();
                     formHotel.refreshField();
                 });
 
-                Button editHotelCategoryButton = new Button("Edit");
-                editHotelCategoryButton.setDescription("Edit HotelEntity Category");
-                editHotelCategoryButton.addClickListener(event -> {
-                    formCategory.setCategoryEntity(gridCategory.asMultiSelect().getSelectedItems().iterator().next());
+                Button editCategoryButton = new Button("Edit");
+                editCategoryButton.setDescription("Edit Hotel Category");
+                editCategoryButton.addClickListener(event -> {
+                    formCategory.setCategory(gridCategory.asMultiSelect().getSelectedItems().iterator().next());
                     gridCategory.asMultiSelect().clear();
                     formHotel.refreshField();
                 });
 
-                Button deleteHotelCategoryButton = new Button("Delete");
-                deleteHotelCategoryButton.setDescription("Delete HotelEntity Category");
-                deleteHotelCategoryButton.addClickListener(e -> {
+                Button deleteCategoryButton = new Button("Delete");
+                deleteCategoryButton.setDescription("Delete Hotel Category");
+                deleteCategoryButton.addClickListener(e -> {
                     formCategory.delete(gridCategory.asMultiSelect().getSelectedItems());
                     gridCategory.asMultiSelect().clear();
                     formHotel.refreshField();
                 });
 
                 addNewHotelCategoryButton.setVisible(true);
-                editHotelCategoryButton.setVisible(false);
-                deleteHotelCategoryButton.setVisible(false);
+                editCategoryButton.setVisible(false);
+                deleteCategoryButton.setVisible(false);
 
                 gridCategory.asMultiSelect().addValueChangeListener(event -> {
                     if(event.getValue().size() == 1) {
-                        editHotelCategoryButton.setVisible(true);
-                        deleteHotelCategoryButton.setVisible(true);
+                        editCategoryButton.setVisible(true);
+                        deleteCategoryButton.setVisible(true);
                     } else if(event.getValue().size() == 0) {
-                        editHotelCategoryButton.setVisible(false);
-                        deleteHotelCategoryButton.setVisible(false);
+                        editCategoryButton.setVisible(false);
+                        deleteCategoryButton.setVisible(false);
                     }
                     else if(event.getValue().size() > 1) {
-                        editHotelCategoryButton.setVisible(false);
-                        deleteHotelCategoryButton.setVisible(true);
+                        editCategoryButton.setVisible(false);
+                        deleteCategoryButton.setVisible(true);
                     }
                 });
 
                 HorizontalLayout toolbar = new HorizontalLayout(addNewHotelCategoryButton,
-                                         editHotelCategoryButton, deleteHotelCategoryButton);
+                                         editCategoryButton, deleteCategoryButton);
                 HorizontalLayout category = new HorizontalLayout(gridCategory, formCategory);
                 gridCategory.setSizeUndefined();
 
@@ -199,18 +199,18 @@ public class MyUI extends UI {
             }
         };
 
-        barmenu.addItem("HotelEntity List", null, hotelList);
-        barmenu.addItem("HotelEntity Categories", null, hotelCategories);
+        barmenu.addItem("Hotel List", null, hotelList);
+        barmenu.addItem("Hotel Categories", null, hotelCategories);
     }    
 
 	public void updateHotels(){
-		List<HotelEntity> hotelEntity = serviceHotel.findAll(filterName.getValue(), filterAddress.getValue());
+		List<Hotel> hotel = serviceHotel.findAll(filterName.getValue(), filterAddress.getValue());
 	
-        gridHotel.setItems(hotelEntity);
+        gridHotel.setItems(hotel);
 	}
 	
 	public void updateHotelCategory(){
-		List<CategoryEntity> hotelCategories = serviceCategory.findAll();
+		List<Category> hotelCategories = serviceCategory.findAll();
         gridCategory.setItems(hotelCategories);
 	}
 	

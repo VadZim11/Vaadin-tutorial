@@ -2,8 +2,8 @@ package com.jpsolution.vaadin.form;
 
 import com.jpsolution.vaadin.MyUI;
 import com.jpsolution.vaadin.converter.DataConverter;
-import com.jpsolution.vaadin.entity.HotelEntity;
-import com.jpsolution.vaadin.entity.CategoryEntity;
+import com.jpsolution.vaadin.entity.Hotel;
+import com.jpsolution.vaadin.entity.Category;
 import com.jpsolution.vaadin.service.impl.CategoryServiceImpl;
 import com.jpsolution.vaadin.service.impl.HotelServiceImpl;
 import com.vaadin.data.Binder;
@@ -24,16 +24,16 @@ public class HotelForm extends FormLayout{
 	private TextField address = new TextField("Address");
 	private TextField rating = new TextField("Rating");
 	private DateField operatesFrom = new DateField("Operates From");
-	private NativeSelect<CategoryEntity> category = new NativeSelect<>("Category");
+	private NativeSelect<Category> category = new NativeSelect<>("Category");
 	private TextField url = new TextField("URL");
 	private TextArea description = new TextArea("Description");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	
 	private HotelServiceImpl service = HotelServiceImpl.getInstance();
-	private HotelEntity hotelEntity;
+	private Hotel hotel;
 	private MyUI myUI;
-	private Binder<HotelEntity> binder = new Binder<>(HotelEntity.class);
+	private Binder<Hotel> binder = new Binder<>(Hotel.class);
 	
 	public HotelForm(MyUI myUI){
 		this.myUI = myUI;
@@ -41,7 +41,7 @@ public class HotelForm extends FormLayout{
 		setSizeUndefined();
 		HorizontalLayout buttons = new HorizontalLayout(save,delete);
 		addComponents(name,address,rating, operatesFrom, category, url, description, buttons);
-		category.setItems(CategoryServiceImpl.getInstance().findAll().toArray(new CategoryEntity[(int) CategoryServiceImpl.getInstance().count()]));
+		category.setItems(CategoryServiceImpl.getInstance().findAll().toArray(new Category[(int) CategoryServiceImpl.getInstance().count()]));
 		
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(KeyCode.ENTER);
@@ -59,42 +59,42 @@ public class HotelForm extends FormLayout{
 			  .withConverter(new StringToIntegerConverter(0, "Only digits!"))			  
 			  .withValidator(v -> (v < 6 ), "Rating is not > 5")
 			  .withValidator(v -> (v >= 0), "Rating is not < 0")
-			  .bind(HotelEntity:: getRating, HotelEntity:: setRating);
+			  .bind(Hotel:: getRating, Hotel:: setRating);
 		
 		binder.forField(operatesFrom)
 			  .asRequired("OperatesFrom is not null")
 			  .withConverter(new DataConverter())
 			  .withValidator(v -> (v >= 0), "OperatesFrom is not > Today")
-			  .bind(HotelEntity:: getOperatesFrom, HotelEntity:: setOperatesFrom);
+			  .bind(Hotel:: getOperatesFrom, Hotel:: setOperatesFrom);
 		
 		binder.forField(name)
 			  .asRequired("Name is not null")
-			  .bind(HotelEntity:: getName, HotelEntity:: setName);
+			  .bind(Hotel:: getName, Hotel:: setName);
 		
 		binder.forField(address)
 		  	  .asRequired("Address is not null")
-			  .bind(HotelEntity:: getAddress, HotelEntity:: setAddress);
+			  .bind(Hotel:: getAddress, Hotel:: setAddress);
 
 		binder.forField(category)
 		  	  .asRequired("Category is not null")
-			  .bind(HotelEntity:: getCategory, HotelEntity:: setCategory);
+			  .bind(Hotel:: getCategory, Hotel:: setCategory);
 
 		binder.forField(url)
 		  	  .asRequired("Url is not null")
-			  .bind(HotelEntity:: getUrl, HotelEntity:: setUrl);
+			  .bind(Hotel:: getUrl, Hotel:: setUrl);
 		
 		binder.forField(description)
-			  .bind(HotelEntity:: getDescription, HotelEntity:: setDescription);
+			  .bind(Hotel:: getDescription, Hotel:: setDescription);
 	} 
 		
 	 public void toolTipFields(){
-		 name.setDescription("Enter the name of the hotelEntity");
-		 address.setDescription("Enter the address of the hotelEntity");
-		 rating.setDescription("Enter the hotelEntity rating");
-		 operatesFrom.setDescription("Enter from what date does the hotelEntity operate");
-		 category.setDescription("Enter hotelEntity category");
-		 url.setDescription("Enter the link to the hotelEntity's website");
-		 description.setDescription("Enter your description of the hotelEntity");
+		 name.setDescription("Enter the name of the hotel");
+		 address.setDescription("Enter the address of the hotel");
+		 rating.setDescription("Enter the hotel rating");
+		 operatesFrom.setDescription("Enter from what date does the hotel operate");
+		 category.setDescription("Enter hotel category");
+		 url.setDescription("Enter the link to the hotel's website");
+		 description.setDescription("Enter your description of the hotel");
 		 save.setDescription("Save");
 		 delete.setDescription("Delete");
 		
@@ -103,21 +103,21 @@ public class HotelForm extends FormLayout{
 	public void refreshField() {
 		category.clear();
 		category.setItems(CategoryServiceImpl.getInstance().findAll()
-				.toArray(new CategoryEntity[(int) CategoryServiceImpl.getInstance().count()]));
+				.toArray(new Category[(int) CategoryServiceImpl.getInstance().count()]));
 	}
 	
-	public void setHotelEntity(HotelEntity hotelEntity){
-		this.hotelEntity = hotelEntity;
-		binder.setBean(hotelEntity);
+	public void setHotelEntity(Hotel hotel){
+		this.hotel = hotel;
+		binder.setBean(hotel);
 		
-		delete.setVisible(hotelEntity.isPersisted());
+		delete.setVisible(hotel.isPersisted());
 		setVisible(true);
 		name.selectAll();
 		binder.validate();
 	}
 	
 	private void delete(){
-		service.delete(hotelEntity);
+		service.delete(hotel);
 		myUI.updateHotels();
 		setVisible(false);
 	}
@@ -125,7 +125,7 @@ public class HotelForm extends FormLayout{
 	private void save(){
 		binder.validate();
 		if (binder.isValid()) {
-			service.save(hotelEntity);
+			service.save(hotel);
 			myUI.updateHotels();
 			setVisible(false);
 		}

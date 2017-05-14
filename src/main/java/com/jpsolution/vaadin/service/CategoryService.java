@@ -1,15 +1,15 @@
 package com.jpsolution.vaadin.service;
 
-import com.jpsolution.vaadin.entity.CategoryEntity;
+import com.jpsolution.vaadin.entity.Category;
 
 import java.util.List;
 
 public interface CategoryService {
 
     // Find category.
-    List<CategoryEntity> getdAll();
+    List<Category> getdAll();
     // Save or update category.
-    CategoryEntity save(CategoryEntity categoryEntity);
+    Category save(Category category);
     // Delete category.
     void delete(Long id);
 }

@@ -1,7 +1,7 @@
 package com.jpsolution.vaadin.service.impl;
 
-import com.jpsolution.vaadin.entity.CategoryEntity;
-import com.jpsolution.vaadin.repository.CategoryEntityRepository;
+import com.jpsolution.vaadin.entity.Category;
+import com.jpsolution.vaadin.repository.CategoryRepository;
 import com.jpsolution.vaadin.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,29 +14,29 @@ import java.util.logging.Logger;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryEntityRepository categoryEntityRepository;
+    private CategoryRepository categoryRepository;
 
     @Override
-    public List<CategoryEntity> getdAll() {
-        return categoryEntityRepository.findAll();
+    public List<Category> getdAll() {
+        return categoryRepository.findAll();
     }
 
     @Override
-    public CategoryEntity save(CategoryEntity categoryEntity) {
-        CategoryEntity savedCategoryEntity = categoryEntityRepository.saveAndFlush(categoryEntity);
+    public Category save(Category category) {
+        Category savedCategory = categoryRepository.saveAndFlush(category);
 
-        return savedCategoryEntity;
+        return savedCategory;
     }
 
     @Override
     public void delete(Long id) {
-        categoryEntityRepository.delete(id);
+        categoryRepository.delete(id);
     }
 
-	private static CategoryServiceImpl instance;
+	/*private static CategoryServiceImpl instance;
 	private static final Logger LOGGER = Logger.getLogger(CategoryServiceImpl.class.getName());
 	
-	private final HashMap<Long, CategoryEntity> categories = new HashMap<>();
+	private final HashMap<Long, Category> categories = new HashMap<>();
 	private long nextId = 0;
 	
 	private CategoryServiceImpl() {
@@ -50,19 +50,19 @@ public class CategoryServiceImpl implements CategoryService {
 		return instance;
 	}
 	
-	public synchronized List<CategoryEntity> findAll() {
-		ArrayList<CategoryEntity> arrayList = new ArrayList<>();
-		for (CategoryEntity categoryEntity : categories.values()) {
+	public synchronized List<Category> findAll() {
+		ArrayList<Category> arrayList = new ArrayList<>();
+		for (Category category : categories.values()) {
 			try {
-				arrayList.add(categoryEntity.clone());
+				arrayList.add(category.clone());
 			} catch (CloneNotSupportedException ex) {
 				Logger.getLogger(CategoryServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
-		Collections.sort(arrayList, new Comparator<CategoryEntity>() {
+		Collections.sort(arrayList, new Comparator<Category>() {
 
 			@Override
-			public int compare(CategoryEntity o1, CategoryEntity o2) {
+			public int compare(Category o1, Category o2) {
 				return (int) (o2.getId() - o1.getId());
 			}
 		});
@@ -73,15 +73,15 @@ public class CategoryServiceImpl implements CategoryService {
 		return categories.size();
 	}
 	
-	public synchronized CategoryEntity getDefault() {
-		CategoryEntity def = null;
+	public synchronized Category getDefault() {
+		Category def = null;
 		if (categories.values().iterator().hasNext()) {
 			def = categories.values().iterator().next();
 		}
 		return def;
 	}
 
-	public synchronized void delete(CategoryEntity value) {
+	public synchronized void delete(Category value) {
 		categories.remove(value.getId());
 	}
 
@@ -91,10 +91,10 @@ public class CategoryServiceImpl implements CategoryService {
 		if (findAll().isEmpty()) {
 			String[] categoryData = new String[] {"Hotel", "Hostel", "GuestHouse", "Appartments"};
 			for (String category : categoryData) {
-				CategoryEntity c = new CategoryEntity();
+				Category c = new Category();
 				c.setCategory(category);
 				save(c);
 			}
 		}
-	}
+	}*/
 }
