@@ -9,19 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Service()
 public class HotelServiceImpl implements HotelService{
@@ -44,7 +32,7 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
-    public void saveHotel(Hotel hotel) {hotelRepository.merge(hotel);
+    public void saveHotel(Hotel hotel) {hotelRepository.apdate(hotel);
     }
 
     @Override

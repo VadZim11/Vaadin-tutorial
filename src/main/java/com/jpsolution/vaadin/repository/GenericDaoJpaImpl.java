@@ -26,7 +26,7 @@ public class GenericDaoJpaImpl implements GenericDao{
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T merge(T t){
+    public <T> T apdate(T t){
         return (T) currentSession().merge(t);
     }
 
@@ -50,7 +50,6 @@ public class GenericDaoJpaImpl implements GenericDao{
 
     protected Session currentSession(){
         Session currentSession = sessionFactory.getCurrentSession();
-        //Session currentSession = sessionFactory.openSession();
         return currentSession;
     }
 }
