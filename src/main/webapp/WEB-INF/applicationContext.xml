@@ -13,7 +13,7 @@
         http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 							
-    <bean class="com.jpsolution.vaadin.app.MyUI" />
+    <bean class="com.jpsolution.vaadin.app.MyUI.MyConfiguration" />
    
     <context:component-scan base-package="com.jpsolution.vaadin" />
     <bean id="propertyConfigurer"
@@ -21,15 +21,15 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations">
 			<list>
-				<value>classpath:hibernate.properties</value>
+				<value>classpath:db/hibernate.properties</value>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${driver}" />
-		<property name="url" value="${url}" />
+		  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/demo_hotels?serverTimezone=UTC" />
 		<property name="username" value="demo" />
 		<property name="password" value="demo" />
 	</bean>
@@ -40,11 +40,11 @@
 		<property name="hibernateProperties">
 			<props>
 				<!--<prop key="hibernate.hbm2ddl.auto">update</prop> -->
-				<prop key="hibernate.connection.Charset">${hibernate.charset}</prop>
-				<prop key="hibernate.connection.CharacterEncoding">${hibernate.charenc}</prop>
+				<prop key="hibernate.connection.Charset">UTF-8</prop>
+				<prop key="hibernate.connection.CharacterEncoding">UTF-8</prop>
 				<prop key="hibernate.connection.Useunicode">${hibernte.useunicode}</prop>
-				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 
 			</props>
