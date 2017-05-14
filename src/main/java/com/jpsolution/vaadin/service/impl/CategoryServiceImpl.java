@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -26,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void saveCategory(Category category){
-        categoryRepository.merge(category);
+        categoryRepository.apdate(category);
     }
 
     @Override
